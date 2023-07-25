@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Barcode Scanner</title>
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-</head>
-<body>
-  <div id="reader" style="width: 600px"></div>
-  
-  <script type="text/javascript">
-    // To use Html5QrcodeScanner (more info below)
-import {Html5QrcodeScanner} from "html5-qrcode";
+  <head>
+    <title>QR Code Scanner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+  </head>
+  <body>
+    <video id="preview"></video>
 
-// To use Html5Qrcode (more info below)
-import {Html5Qrcode} from "html5-qrcode";
-    function onScanSuccess(decodedText, decodedResult) {
-      console.log(`Code matched = ${decodedText}`, decodedResult);
-    }
-
-    function onScanFailure(error) {
-      console.warn(`Code scan error = ${error}`);
-    }
-
-    // The scanner will be rendered in the "reader" element
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader",
-      { fps: 10, qrbox: {width: 250, height: 250} },
-      /* verbose= */ false);
+    <script type="text/javascript">
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
-    // Trigger camera permissions prompt by querying cameras
-    Html5Qrcode.getCameras().then(devices => {
-      if (devices && devices.length) {
-        var cameraId = devices[0].id;
-      }
-    }).catch(err => {
-      console.error(err);
-    });
-  </script>
-</body>
+      scanner.addListener('scan', function (content) {
+        console.log('Scanned content: ' + content);
+      });
+      
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    </script>
+  </body>
 </html>
+
