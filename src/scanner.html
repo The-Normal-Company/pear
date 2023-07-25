@@ -28,16 +28,15 @@
                     enabledSymbologies: ["ean8", "ean13", "upca", "upce", "code128", "code39", "code93", "itf", "qr", "databar", "databar-expanded", "codabar"],
                     codeDuplicateFilter: 1000
                 });
-
+            
                 barcodePicker.applyScanSettings(scanSettings);
-            })
-            .then((barcodePicker) => {
-              barcodePicker.on("scan", function(scanResult) {
+            
+                barcodePicker.on("scan", function(scanResult) {
                     console.log(scanResult.barcodes.reduce(function(string, barcode) {
                         return string + ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology) + ": " + barcode.data + "\n";
                     }, ""));
                 });
-
+            
                 barcodePicker.startScanning();
             })
             .catch((error) => {
