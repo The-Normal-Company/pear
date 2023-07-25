@@ -31,7 +31,7 @@
 
                 barcodePicker.applyScanSettings(scanSettings);
             })
-            .then(() => {
+            .then((barcodePicker) => {
               barcodePicker.on("scan", function(scanResult) {
                     console.log(scanResult.barcodes.reduce(function(string, barcode) {
                         return string + ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology) + ": " + barcode.data + "\n";
