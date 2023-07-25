@@ -29,7 +29,7 @@
         margin: 4vh;
       }
 
-      button {
+      #barcode-picker-starter-button {
         background-color: #555;
         color: white;
         font-size: 3vh;
@@ -39,6 +39,7 @@
         margin-top: 5vh;
         width: 70vw;
         max-width: 500px;
+        cursor: pointer;
       }
 
       .result-text {
@@ -55,68 +56,45 @@
 
   <body>
     <div class="logo"></div>
-    <div class="name">Simple sample</div>
+    <div class="name">Web Component Simple Sample</div>
     <div id="description" class="description">Start the scanner and then aim at a barcode to get the encoded data.</div>
     <div id="lib-loading"><br />Library is loading, please wait...</div>
-    <button id="barcode-picker-starter-button" onclick="startBarcodePicker();" hidden>Start Scanning</button>
+    <button id="barcode-picker-starter-button" hidden onclick="startBarcodePicker()">Start Scanning</button>
     <div id="barcode-result" class="result-text">&nbsp;</div>
-    <div id="barcode-picker" class="scanner"></div>
+
+    <scandit-barcode-picker
+      id="barcode-picker"
+      class="scanner"
+      configure.licenseKey="Afqz9mTRRx04MGjB0hF57tg0GJdPLM/zR2ocwrR23Apacb4coHKzPuMjkhYcK0xI42d3EmxQWt0Hc8maJ025IFcABMcvZJK4tRuWra1nI0SbVWPa/CegxBBRC5L9WuZCdlpHZ/B8zW2TK7iSQ2y/+y42QTF/BxrYpxfHu1o7ilOSM7MK8hZ382aXKrTgB4goT42n1eRy+48D9Qp0wAZ3T1k4MriBi9xFoL0y7tPHOeM16SqOsCfQyQpX3ypiMbOgTxllAeue8eJbnW9QB31FuuzsJpasHh5HmVlTMVMiettEZR30B5DzA8psL89nTk5VBHGYQ3BtSGHISIeISW4RsqDJF91pk6zWe9VPQjxwbS6kS6ajfRuqKOGNmU/LlzrrMqAd0MrzmHZx8CuxyXXGULopVGJnJ7bx4x6htRSNeIOi1TfqXLWV6qHitjDNmKxftttfxMPZ0TwZLD50MtOwQe/9ItBs2ZJYWu6taFcsTQg62DPsXvTeai8abkclq0oLl8EvCIK+sLR00Rhygnn5LNxeqXLFma12N4L7sppLeyhcyTJIK30obfmNOPEtvucf5kxvZ7WtDa2JPm/ZZTgN2Eeyu2Yml0rBJul82NEIaGPE7fX0xIWa8L3TZQvTJ2mQGf8ZnT9YeWgHvlZpif8f1YlYS3yfrPOSyi9+v8KbPhUx452JfhlZAPvN8Dkw59WR7dvwVsNRmJLn1MgSnyLpBwxtPXEXiWX4tZXfdmzX1RZtxCiaaH681qimhT0HPwPZYcSpctNy4RC97W0YYVXM2MXcXomulpeAR6LT1kHddn0WHUd3+RmVaD7uHHPM3iuh9b4YiXsebNYJKZ3sodFXTyOposjV/w=="
+      configure.engineLocation="https://cdn.jsdelivr.net/npm/scandit-sdk@5.x/build/"
+      accessCamera="false"
+      visible="false"
+      playSoundOnScan="true"
+      vibrateOnScan="true"
+      scanSettings.enabledSymbologies='["ean8", "ean13", "upca", "upce"]'
+    ></scandit-barcode-picker>
 
     <script>
-      let scanditBarcodePicker;
+      const barcodePickerElement = document.getElementById("barcode-picker");
 
-      const key = "Afqz9mTRRx04MGjB0hF57tg0GJdPLM/zR2ocwrR23Apacb4coHKzPuMjkhYcK0xI42d3EmxQWt0Hc8maJ025IFcABMcvZJK4tRuWra1nI0SbVWPa/CegxBBRC5L9WuZCdlpHZ/B8zW2TK7iSQ2y/+y42QTF/BxrYpxfHu1o7ilOSM7MK8hZ382aXKrTgB4goT42n1eRy+48D9Qp0wAZ3T1k4MriBi9xFoL0y7tPHOeM16SqOsCfQyQpX3ypiMbOgTxllAeue8eJbnW9QB31FuuzsJpasHh5HmVlTMVMiettEZR30B5DzA8psL89nTk5VBHGYQ3BtSGHISIeISW4RsqDJF91pk6zWe9VPQjxwbS6kS6ajfRuqKOGNmU/LlzrrMqAd0MrzmHZx8CuxyXXGULopVGJnJ7bx4x6htRSNeIOi1TfqXLWV6qHitjDNmKxftttfxMPZ0TwZLD50MtOwQe/9ItBs2ZJYWu6taFcsTQg62DPsXvTeai8abkclq0oLl8EvCIK+sLR00Rhygnn5LNxeqXLFma12N4L7sppLeyhcyTJIK30obfmNOPEtvucf5kxvZ7WtDa2JPm/ZZTgN2Eeyu2Yml0rBJul82NEIaGPE7fX0xIWa8L3TZQvTJ2mQGf8ZnT9YeWgHvlZpif8f1YlYS3yfrPOSyi9+v8KbPhUx452JfhlZAPvN8Dkw59WR7dvwVsNRmJLn1MgSnyLpBwxtPXEXiWX4tZXfdmzX1RZtxCiaaH681qimhT0HPwPZYcSpctNy4RC97W0YYVXM2MXcXomulpeAR6LT1kHddn0WHUd3+RmVaD7uHHPM3iuh9b4YiXsebNYJKZ3sodFXTyOposjV/w==";
-      ScanditSDK.configure(key, {
-        engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk@5.x/build",
-      })
-        .then(function () {
-          return ScanditSDK.BarcodePicker.create(document.getElementById("barcode-picker"), {
-            scanningPaused: true,
-            accessCamera: false,
-            visible: false,
-            playSoundOnScan: true,
-            vibrateOnScan: true,
-          }).then(function (barcodePicker) {
-            scanditBarcodePicker = barcodePicker;
-            const scanSettings = new ScanditSDK.ScanSettings({
-              enabledSymbologies: ["ean8", "ean13", "upca", "upce", "code128", "code39", "itf", "qr", "data-matrix"],
-              searchArea: { x: 0, y: 0.333, width: 1, height: 0.333 },
-            });
-            barcodePicker.applyScanSettings(scanSettings);
-            barcodePicker.on("ready", function () {
-              document.getElementById("lib-loading").hidden = true;
-              document.getElementById("barcode-picker-starter-button").hidden = false;
-            });
-            barcodePicker.on("scan", function (scanResult) {
-              document.getElementById("barcode-result").innerHTML = scanResult.barcodes.reduce(function (
-                string,
-                barcode
-              ) {
-                return (
-                  string +
-                  ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology) +
-                  ": " +
-                  barcode.data +
-                  "<br>"
-                );
-              },
-              "");
-            });
-            barcodePicker.on("scanError", function (error) {
-              console.error(error);
-            });
-          });
-        })
-        .catch(function (error) {
-          alert(error);
-        });
+      barcodePickerElement.addEventListener("scan", (scanResult) => {
+        const barcode = scanResult.detail.barcodes[0];
+        const symbology = ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology);
+
+        document.getElementById("barcode-result").innerText = `${barcode.symbology} ${barcode.data}`;
+      });
+
+      barcodePickerElement.addEventListener("ready", () => {
+        document.getElementById("lib-loading").hidden = true;
+        document.getElementById("barcode-picker-starter-button").hidden = false;
+      });
 
       function startBarcodePicker() {
         document.getElementById("barcode-picker-starter-button").hidden = true;
         document.getElementById("description").hidden = true;
 
-        scanditBarcodePicker.accessCamera().then(function () {
-          scanditBarcodePicker.setVisible(true).resumeScanning();
+        barcodePickerElement.barcodePicker.accessCamera().then(() => {
+          barcodePickerElement.barcodePicker.setVisible(true).resumeScanning();
         });
       }
     </script>
