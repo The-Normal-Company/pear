@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<script src="html5-qrcode.min.js"></script>
+
+	</head>
 <body>
-<script src="html5-qrcode.min.js"></script>
-<div style="width: 500px" id="reader"></div>
+	<div style="width: 500px" id="reader"></div>
+</body>
 <script>
 // Check if Html5QrcodeScanner is loaded
 if (typeof Html5QrcodeScanner !== "undefined") {
@@ -24,5 +28,4 @@ if (typeof Html5QrcodeScanner !== "undefined") {
     console.error("Html5QrcodeScanner is not loaded. Please check your script source.");
 }
 </script>
-</body>
 </html>
